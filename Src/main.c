@@ -58,6 +58,8 @@ static void uGUIUpdateThread(void const *argument);
 static void SystemClock_Config(void);
 static void Error_Handler(void);
 static void CPU_CACHE_Enable(void);
+UG_RESULT _HW_DrawLine(UG_S16, UG_S16, UG_S16, UG_S16, UG_COLOR);
+UG_RESULT _HW_FillFrame(UG_S16, UG_S16, UG_S16, UG_S16, UG_COLOR);
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -123,6 +125,11 @@ int main(void)
 	UG_Init(&gui, (void (*)(UG_S16, UG_S16, UG_COLOR)) pset, BSP_LCD_GetXSize(),BSP_LCD_GetYSize());
 	UG_FillScreen(C_WHITE);
 
+	/* uGUI hardware accelerator */
+	UG_DriverRegister(DRIVER_DRAW_LINE, (void*) _HW_DrawLine);
+	UG_DriverRegister(DRIVER_FILL_FRAME, (void*) _HW_FillFrame);
+	UG_DriverEnable(DRIVER_DRAW_LINE);
+	UG_DriverEnable(DRIVER_FILL_FRAME);
 
 	/*##-1- Start task #########################################################*/
 	// Priority --- 0:Idle, 1:Low, 2:BelowNormal, 3:Normal(default), 4:AboveNormal, 5:High, 6:Realtime
@@ -311,13 +318,17 @@ void pset(UG_S16 x, UG_S16 y, UG_COLOR col)
 /* Hardware accelerator */
 UG_RESULT _HW_DrawLine(UG_S16 x1, UG_S16 y1, UG_S16 x2, UG_S16 y2, UG_COLOR c)
 {
-	UG_DrawLine(x1, y1, x2, y2, c);
+	BSP_LCD_SetTextColor( 0xFF000000 | c );
+	BSP_LCD_DrawLine(x1, y1, x2, y2);
+	/* UG_DrawLine(x1, y1, x2, y2, c); */
 	return UG_RESULT_OK;
 }
 
 UG_RESULT _HW_FillFrame(UG_S16 x1, UG_S16 y1, UG_S16 x2, UG_S16 y2, UG_COLOR c)
 {
-	UG_FillFrame(x1, y1, x2, y2, c);
+	BSP_LCD_SetTextColor( 0xFF000000 | c );
+	BSP_LCD_FillRect(x1, y1, (uint16_t)( (x1>x2)?(x1-x2):(x2-x1)), (uint16_t)( (y1>y2)?(y1-y2):(y2-y1)) );
+	/* UG_FillFrame(x1, y1, x2, y2, c); */
 	return UG_RESULT_OK;
 }
 
