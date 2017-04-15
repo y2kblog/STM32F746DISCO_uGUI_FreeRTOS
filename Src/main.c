@@ -326,7 +326,7 @@ UG_RESULT _HW_DrawLine(UG_S16 x1, UG_S16 y1, UG_S16 x2, UG_S16 y2, UG_COLOR c)
 UG_RESULT _HW_FillFrame(UG_S16 x1, UG_S16 y1, UG_S16 x2, UG_S16 y2, UG_COLOR c)
 {
 	BSP_LCD_SetTextColor( 0xFF000000 | c );
-	BSP_LCD_FillRect(x1, y1, x2, y2);
+	BSP_LCD_FillRect(x1, y1, (x1>=x2)?(x1-x2):(x2-x1), (y1>=y2)?(y1-y2):(y2-y1));
 	return UG_RESULT_OK;
 }
 
