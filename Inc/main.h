@@ -55,19 +55,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f7xx_hal.h"
-
-/* EVAL includes component */
-#include "stm32746g_discovery.h"
-#include "stm32746g_discovery_lcd.h"
-#include "stm32746g_discovery_ts.h"
-
-/* FreeRTOS */
-#include "cmsis_os.h"
-
-/* uGUI */
-#include "ugui.h"
-
+#include "UserCommon.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/ 
@@ -75,24 +63,10 @@
 #define uGUI_UPDATE_MS		50		/* uGUI update time in milliseconds */
 
 /* Exported variables --------------------------------------------------------*/
-/* Touch screen */
-TS_StateTypeDef TS_State;
-
 /* uGUI structure */
 UG_GUI gui;
 
-uint32_t NowTickCount, LastTouchedTickCount;
-
-// FreeRTOS
-TaskHandle_t xHandle_StartThread;
-TaskHandle_t xHandle_uGUIUpdateThread;
-
 /* Exported functions ------------------------------------------------------- */
-/* uGUI porting function */
-void pset(UG_S16, UG_S16, UG_COLOR);
-
-/* Exported functions ------------------------------------------------------- */
-
 
 #ifdef __cplusplus
 }
