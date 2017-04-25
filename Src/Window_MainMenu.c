@@ -145,7 +145,7 @@ void window_callback(UG_MESSAGE* msg)
 #endif
                 BSP_LED_Toggle(LED1);
 				//needFinalize = true;  // <- Finalize and make "WindowControlThread()" state susupend
-				//UG_WindowShow(&wnd_Templete);
+				//vTaskResume(xHandle_Templete);
                 break;
                 
             default:
@@ -192,9 +192,6 @@ static void draw(void)
 static void finalize(void)
 {
     /* Variables Finalization */
-
-	/* Hide this Window */
-	/*UG_WindowHide(pthis_wnd);*/
 }
 
 /***************************************************************END OF FILE****/

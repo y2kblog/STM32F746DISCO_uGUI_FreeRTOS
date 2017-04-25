@@ -188,6 +188,32 @@ static void uGUIUpdateThread(void const *argument)
     }
 }
 
+
+/* -------------------------------------------------------------------------------- */
+/* -- FreeRTOS                                                                   -- */
+/* -------------------------------------------------------------------------------- */
+void vApplicationIdleHook(void)
+{
+    return;
+}
+
+void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
+{
+#ifdef PRINTF_DEBUG_MDOE
+    printf("FreeRTOS stack overflow error : %s\r\n", pcTaskName);
+#endif
+    return;
+}
+
+void vApplicationMallocFailedHook(void)
+{
+#ifdef PRINTF_DEBUG_MDOE
+    printf("FreeRTOS memory allocation failed error\r\n");
+#endif
+    return;
+}
+
+
 /* -------------------------------------------------------------------------------- */
 /* -- Porting function for uGUI                                                  -- */
 /* -------------------------------------------------------------------------------- */
