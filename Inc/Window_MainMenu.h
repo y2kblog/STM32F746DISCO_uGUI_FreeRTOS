@@ -10,10 +10,13 @@ extern "C" {
 // Include user header files
 #include "UserCommon.h"
 
+// Callee of this window
+//#include "Window_Templete.h"
+
 /* Exported macro ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 #define MAINMENU_WINDOW_TITLE	        "MAIN MENU"
-#define uGUI_MAINMENU_OBJECTS_NUM       10
+#define MAINMENU_uGUI_OBJECTS_NUM       10
 #define MAINMENU_UPDATE_MS              50
 #define MAINMENU_BUTTON_GAP             5
 
@@ -24,6 +27,8 @@ extern "C" {
 /* Exported variables --------------------------------------------------------*/
 // FreeRTOS
 TaskHandle_t xHandle_MainMenu;
+
+UG_WINDOW wnd_MainMenu;
 
 /* Exported function prototypes ----------------------------------------------*/
 void createMainMenuWindow(void);

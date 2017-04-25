@@ -16,15 +16,14 @@ static enum TXB_ID_TAG
 };
 
 /* Private variables ---------------------------------------------------------*/
-// uGUI
-static UG_WINDOW    wnd_MainMenu;
-static UG_OBJECT    obj_this_wnd[uGUI_MAINMENU_OBJECTS_NUM];
-static UG_BUTTON    btn_Test;
-static UG_TEXTBOX   txb_Test;
-
 /* "this" pointer */
 static TaskHandle_t* pthis_xHandle = &xHandle_MainMenu;
 static UG_WINDOW*    pthis_wnd     = &wnd_MainMenu;
+
+// uGUI
+static UG_OBJECT    obj_this_wnd[MAINMENU_uGUI_OBJECTS_NUM];
+static UG_BUTTON    btn_Test;
+static UG_TEXTBOX   txb_Test;
 
 /* thread control */
 static bool needFinalize;  // This flag is used in "WindowControlThread" and "window_callback" function
@@ -67,12 +66,13 @@ void createMainMenuWindow(void)
             UG_WindowGetInnerWidth(pthis_wnd)  * 1 / 2 - 0,
             UG_WindowGetInnerHeight(pthis_wnd) * 1 / 4 - 0 );
     UG_TextboxSetFont(pthis_wnd, id_buf, &FONT_12X20);
-    UG_TextboxSetText(pthis_wnd, id_buf, "Hello world!");
+    UG_TextboxSetText(pthis_wnd, id_buf, "Hello uGUI!");
     UG_TextboxSetAlignment(pthis_wnd, id_buf, ALIGN_CENTER_LEFT);
     
 	UG_WindowShow(pthis_wnd);
     
-    xTaskCreate( (TaskFunction_t)WindowControlThread, "MainMenuTask", configMINIMAL_STACK_SIZE+100, NULL, Priority_Low, pthis_xHandle);
+    xTaskCreate( (TaskFunction_t)WindowControlThread, "MainMenuTask",
+    		configMINIMAL_STACK_SIZE+100, NULL, Priority_Low, pthis_xHandle);
 }
 
 
@@ -129,7 +129,7 @@ static void WindowControlThread(void const *argument)
 }
 
 /* ---------------------------------------------------------------- */
-/* -- Callback function                                          -- */
+/* -- Callback function ( called from "UG_Update()" )            -- */
 /* ---------------------------------------------------------------- */
 void window_callback(UG_MESSAGE* msg)
 {
@@ -140,7 +140,12 @@ void window_callback(UG_MESSAGE* msg)
             switch (msg->sub_id)
             {
             case BTN_ID_Test:
+#ifdef PRINTF_DEBUG_MDOE
+                printf("Push Toggle button\r\n");
+#endif
                 BSP_LED_Toggle(LED1);
+				//needFinalize = true;  // <- Finalize and make "WindowControlThread()" state susupend
+				//UG_WindowShow(&wnd_Templete);
                 break;
                 
             default:
@@ -189,7 +194,7 @@ static void finalize(void)
     /* Variables Finalization */
 
 	/* Hide this Window */
-	UG_WindowHide(pthis_wnd);
+	/*UG_WindowHide(pthis_wnd);*/
 }
 
 /***************************************************************END OF FILE****/
