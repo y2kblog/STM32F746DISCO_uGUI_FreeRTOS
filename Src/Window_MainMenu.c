@@ -92,6 +92,9 @@ static void WindowControlThread(void const *argument)
     bool needInitialize = false;
     	 needFinalize   = false;    /* only "needFinalize" flag is changed from "window_callback" function */
 	
+    if(!shouldSuspend)
+        initialize();
+    
     while (1)
     {
     	/* Thread flow */
