@@ -4,6 +4,7 @@
 
 /* Include system header files -----------------------------------------------*/
 #include <stddef.h>
+#include <stdlib.h>
 #include <stdint.h>
 
 /* -------------------------------------------------------------------------------- */
@@ -14,7 +15,7 @@
 #define  USE_FONT_5X8
 //#define  USE_FONT_5X12
 #define  USE_FONT_6X8
-//#define  USE_FONT_6X10
+#define  USE_FONT_6X10
 #define  USE_FONT_7X12
 #define  USE_FONT_8X8
 #define  USE_FONT_8X12
