@@ -56,6 +56,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "UserCommon.h"
+#include "FreeRTOS_Func.h"
  
 /* User Window */
 #include "Window_MainMenu.h"

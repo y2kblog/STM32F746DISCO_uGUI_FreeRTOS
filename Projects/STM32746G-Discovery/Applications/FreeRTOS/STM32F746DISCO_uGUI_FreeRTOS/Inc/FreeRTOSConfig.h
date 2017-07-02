@@ -110,7 +110,7 @@
 #define configENABLE_BACKWARD_COMPATIBILITY 1
 
 /* Memory allocation related definitions. */
-#define configSUPPORT_STATIC_ALLOCATION     0
+#define configSUPPORT_STATIC_ALLOCATION     1
 #define configSUPPORT_DYNAMIC_ALLOCATION    1
 
 /* Co-routine definitions. */

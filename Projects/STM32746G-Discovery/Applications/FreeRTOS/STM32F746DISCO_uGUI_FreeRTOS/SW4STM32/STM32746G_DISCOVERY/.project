@@ -31,6 +31,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/startup_stm32f746xx.s</locationURI>
 		</link>
 		<link>
+			<name>Application/User/FreeRTOS_Func.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Src/FreeRTOS_Func.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/Window_MainMenu.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/Window_MainMenu.c</locationURI>

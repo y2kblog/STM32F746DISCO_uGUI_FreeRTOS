@@ -187,32 +187,6 @@ static void uGUIUpdateThread(void const *argument)
 
 
 /* -------------------------------------------------------------------------------- */
-/* -- FreeRTOS                                                                   -- */
-/* -------------------------------------------------------------------------------- */
-void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
-{
-#ifdef PRINTF_DEBUG_MDOE
-    printf("FreeRTOS stack overflow error : %s\r\n", pcTaskName);
-#endif
-    return;
-}
-
-void vApplicationMallocFailedHook(void)
-{
-#ifdef PRINTF_DEBUG_MDOE
-    printf("FreeRTOS memory allocation failed error\r\n");
-#endif
-}
-
-void vApplicationTickHook(void)
-{
-}
-
-void vApplicationIdleHook(void)
-{
-}
-
-/* -------------------------------------------------------------------------------- */
 /* -- System                                                                     -- */
 /* -------------------------------------------------------------------------------- */
 static void UART_COM_init(void)
@@ -382,8 +356,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     case TS_INT_PIN:	// Touch screen interrupt
         if(BSP_TS_ITGetStatus() == TS_OK)
         {
-            LastTouchedTickCount = xTaskGetTickCount();
             BSP_TS_GetState(&TS_State);
+            LastTouchedTickCount = xTaskGetTickCount();
         }
         break;
 
