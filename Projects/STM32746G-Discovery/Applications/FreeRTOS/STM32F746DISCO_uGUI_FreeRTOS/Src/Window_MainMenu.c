@@ -55,8 +55,8 @@ void createMainMenuWindow(void)
             UG_WindowGetInnerHeight(pthis_wnd) * 1 / 4 + MAINMENU_BUTTON_GAP,
             UG_WindowGetInnerWidth(pthis_wnd)  * 1 / 2 - MAINMENU_BUTTON_GAP,
             UG_WindowGetInnerHeight(pthis_wnd) * 2 / 4 - MAINMENU_BUTTON_GAP );
-    UG_ButtonSetFont(pthis_wnd, id_buf, &FONT_12X20);
-    UG_ButtonSetText(pthis_wnd, id_buf, "Toggle LED1");
+    UG_ButtonSetFont(pthis_wnd, id_buf, &FONT_10X16);
+    UG_ButtonSetText(pthis_wnd, id_buf, "Toggle\nLED1");
 	
     // Create textboxes
     id_buf = TXB_ID_Test;
@@ -65,7 +65,7 @@ void createMainMenuWindow(void)
             UG_WindowGetInnerHeight(pthis_wnd) * 0 / 4 + 0,
             UG_WindowGetInnerWidth(pthis_wnd)  * 1 / 2 - 0,
             UG_WindowGetInnerHeight(pthis_wnd) * 1 / 4 - 0 );
-    UG_TextboxSetFont(pthis_wnd, id_buf, &FONT_12X20);
+    UG_TextboxSetFont(pthis_wnd, id_buf, &FONT_10X16);
     UG_TextboxSetText(pthis_wnd, id_buf, "Hello uGUI!");
     UG_TextboxSetAlignment(pthis_wnd, id_buf, ALIGN_CENTER_LEFT);
     
@@ -133,6 +133,8 @@ static void WindowControlThread(void const *argument)
 /* ---------------------------------------------------------------- */
 void window_callback(UG_MESSAGE* msg)
 {
+    static GPIO_PinState LED1_state = GPIO_PIN_RESET;
+
     if (msg->type == MSG_TYPE_OBJECT)
     {
         if (msg->id == OBJ_TYPE_BUTTON)
@@ -144,6 +146,16 @@ void window_callback(UG_MESSAGE* msg)
                 printf("Push Toggle button\r\n");
 #endif
                 BSP_LED_Toggle(LED1);
+                if(LED1_state == GPIO_PIN_RESET)
+                {
+                    LED1_state =GPIO_PIN_SET;
+                    UG_ButtonSetBackColor(pthis_wnd, BTN_ID_Test, C_LIME);
+                }
+                else
+                {
+                    LED1_state =GPIO_PIN_RESET;
+                    UG_ButtonSetBackColor(pthis_wnd, BTN_ID_Test, UG_WindowGetBackColor(pthis_wnd) );
+                }
 				//needFinalize = true;  // <- Finalize and make "WindowControlThread()" state susupend
 				//vTaskResume(xHandle_Templete);
                 break;

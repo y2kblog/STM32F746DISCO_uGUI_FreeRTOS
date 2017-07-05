@@ -29,6 +29,7 @@
 //#define  USE_FONT_32X53
 
 /* Specify platform-dependent integer types here */
+//#define uGUI_DISPLAY_VERTICAL_MODE
 
 #define __UG_CONST   const
 typedef uint8_t      UG_U8;

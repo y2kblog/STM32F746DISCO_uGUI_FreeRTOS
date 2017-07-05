@@ -112,7 +112,11 @@ int main(void)
     TS_Config();
 
     /* uGUI Init */
+#ifdef uGUI_DISPLAY_VERTICAL_MODE
+    UG_Init(&gui, (void (*)(UG_S16, UG_S16, UG_COLOR)) pset, BSP_LCD_GetYSize(), BSP_LCD_GetXSize());
+#else
     UG_Init(&gui, (void (*)(UG_S16, UG_S16, UG_COLOR)) pset, BSP_LCD_GetXSize(), BSP_LCD_GetYSize());
+#endif
 
     /* uGUI hardware accelerator */
     UG_DriverRegister(DRIVER_DRAW_LINE, (void*) _HW_DrawLine);
@@ -176,9 +180,16 @@ static void uGUIUpdateThread(void const *argument)
 
         // Touch screen data update
         if (TS_State.touchDetected > 0)
+        {
+#ifdef uGUI_DISPLAY_VERTICAL_MODE
+            UG_TouchUpdate(TS_State.touchY[0], BSP_LCD_GetXSize() - TS_State.touchX[0] - 1, TOUCH_STATE_PRESSED);
+#else
             UG_TouchUpdate(TS_State.touchX[0], TS_State.touchY[0], TOUCH_STATE_PRESSED);
+#endif
+        }
         else
             UG_TouchUpdate(-1, -1, TOUCH_STATE_RELEASED);
+
 
         // Update display
         UG_Update();
