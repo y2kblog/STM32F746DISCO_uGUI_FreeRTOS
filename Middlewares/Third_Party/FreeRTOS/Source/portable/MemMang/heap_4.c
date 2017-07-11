@@ -103,7 +103,11 @@ task.h is included from an application file. */
 	heap - probably so it can be placed in a special segment or address. */
 	extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
 #else
-	static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+#ifdef  USER_USE_SDRAM_HEAP_FREERTOS
+     static uint8_t* ucHeap = USER_SDRAM_START_ADDRESS;
+#else
+     static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+#endif
 #endif /* configAPPLICATION_ALLOCATED_HEAP */
 
 /* Define the linked list structure.  This is used to link free blocks in order
